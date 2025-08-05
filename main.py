@@ -172,7 +172,7 @@ if "player" in st.session_state:
                 unsafe_allow_html=True
             )
 
-        col1, col2, col3 = st.columns(3)
+        col_train1, col_train2, col_train3 = st.columns(3)
         with col_train1:
             if st.button("📚원준이의 수학 과외"):
                 st.session_state["school_gauge"] += 1
