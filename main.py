@@ -183,7 +183,7 @@ if "player" in st.session_state:
                 st.session_state["school_gauge"] += 0
         with col_train3:
             if st.button("💪민욱쌤의 영어 과외"):
-                st.session_state["school_gauge"] += 1.25
+                st.session_state["school_gauge"] += 1
 
         st.progress(st.session_state["school_gauge"] / 3)
 
