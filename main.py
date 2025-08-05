@@ -125,7 +125,7 @@ if "player" in st.session_state:
 
             if boost <= 15:
                 msg = "동혁이가 씻지 않은 손으로 만든 손만두"
-                color = "black"
+                color = "brown"
             elif boost <= 30:
                 msg = "서윤이가 2달간 사물함에 보관해둔 간식"
                 color = "green"
