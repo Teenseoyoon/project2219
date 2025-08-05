@@ -127,18 +127,23 @@ if "player" in st.session_state:
             else:
                 msg = "영양사 선생님의 48년 전통 해장국"
                 color = "gold"
+            st.session_state["boost_result"] = {
+                "msg": msg,
+                "color": color,
+                "amount": boost
+           # 화면 중앙 메시지 출력 (있을 경우만)
+            if "boost_result" in st.session_state:
+                result = st.session_state["boost_result"]
+                st.markdown(
+                    f"""
+                    <div style='text-align:center; font-size:32px; color:{result['color']}; font-weight:bold;'>
+                    {result['msg']}<br>❤️ HP +{result['amount']}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
-            placeholder = st.empty()
-            placeholder.markdown(
-                f"""
-                <div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>
-                {msg}<br>❤️ HP +{boost}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-            time.sleep(2)
-            placeholder.empty()
+            
             st.rerun()
 
         st.markdown("---")
