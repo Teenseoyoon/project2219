@@ -1,33 +1,3 @@
-class Player:
-    def __init__(self, name, job):
-        self.name = name
-        self.job = job
-
-        # 직업별 능력치 설정
-        if job == "검사":
-            self.hp = 120
-            self.atk = 15
-        elif job == "마법사":
-            self.hp = 90
-            self.atk = 20
-        elif job == "거지":
-            self.hp = 70
-            self.atk = 5
-        else:
-            self.hp = 100
-            self.atk = 10
-
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "job": self.job,
-            "hp": self.hp,
-            "atk": self.atk,
-        }
-import streamlit as st
-import json
-import os
-
 # Player 클래스 포함
 class Player:
     def __init__(self, name, job):
