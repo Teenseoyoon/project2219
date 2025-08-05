@@ -91,12 +91,20 @@ if "player" in st.session_state:
 
         if "gauge" not in st.session_state:
             st.session_state["gauge"] = 0
-        if "hp_boost_msg" not in st.session_state:
-            st.session_state["hp_boost_msg"] = ""
 
         st.title("🍜 식당에 오신 걸 환영합니다!")
         st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
-
+        
+        if "boost_result" in st.session_state:
+            result = st.session_state["boost_result"]
+            st.markdown(
+                f"""
+                <div style='text-align:center; font-size:32px; color:{result['color']}; font-weight:bold;'>
+                {result['msg']}<br>❤️ HP +{result['amount']}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         col_food1, col_food2, col_food3 = st.columns(3)
         with col_food1:
             if st.button("🍙 삼각김밥"):
@@ -127,22 +135,12 @@ if "player" in st.session_state:
             else:
                 msg = "영양사 선생님의 48년 전통 해장국"
                 color = "gold"
+                
             st.session_state["boost_result"] = {
                 "msg": msg,
                 "color": color,
                 "amount": boost
-           # 화면 중앙 메시지 출력 (있을 경우만)
-            if "boost_result" in st.session_state:
-                result = st.session_state["boost_result"]
-                st.markdown(
-                    f"""
-                    <div style='text-align:center; font-size:32px; color:{result['color']}; font-weight:bold;'>
-                    {result['msg']}<br>❤️ HP +{result['amount']}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
-
+            }
             
             st.rerun()
 
