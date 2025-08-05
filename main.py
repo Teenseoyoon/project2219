@@ -77,7 +77,15 @@ else:
             st.success("회원가입 완료! 로그인해주세요.")
 
 # 로그인된 사용자 표시
-if "player" in
+if "player" in st.session_state:
+    st.markdown("---")
+    p = st.session_state["player"]
+    st.markdown(
+        f"<div style='text-align:center; font-size:18px;'>"
+        f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']}"
+        f"</div>",
+        unsafe_allow_html=True
+    )
 
 # 2단계: 게임 화면
 else:
