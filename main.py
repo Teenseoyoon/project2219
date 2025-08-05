@@ -129,11 +129,12 @@ else:
 # 디버깅/관리용: DB 존재 여부 + 내용 보기
 # -------------------------------
 st.markdown("---")
-st.write("📁 현재 디렉토리:", os.getcwd())
-st.write("📦 users.db 파일 있음?", os.path.exists("users.db"))
 
 if st.checkbox("📂 저장된 유저 보기"):
     conn = sqlite3.connect("users.db")
     df = pd.read_sql_query("SELECT * FROM users", conn)
     conn.close()
     st.dataframe(df)
+
+st.write("📁 현재 디렉토리:", os.getcwd())
+st.write("📦 users.db 파일 있음?", os.path.exists("users.db"))
