@@ -77,11 +77,11 @@ if "player" in st.session_state:
         with col2:
             if st.button("🏫 학교"):
                 st.session_state["page"] = "식당"
-                st.rerun("학교")
+                st.rerun()
         with col3:
             if st.button("🗡️ 던전"):
                 st.session_state["page"] = "식당"
-                st.rerun("던전")
+                st.rerun()
 
         if st.button("로그아웃"):
             st.session_state.clear()
