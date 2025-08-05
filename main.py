@@ -105,7 +105,7 @@ if "player" in st.session_state:
             
         col_food1, col_food2, col_food3 = st.columns(3)
         with col_food1:
-            if st.button("🍙진호네 삼각김밥"):
+            if st.button("🍙정민이네 삼각김밥"):
                 st.session_state["gauge"] += 1
         with col_food2:
             if st.button("🍜우석석이네 라면"):
