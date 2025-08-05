@@ -89,9 +89,6 @@ if "player" in st.session_state:
             
     elif st.session_state["page"] == "식당":
 
-        if "gauge" not in st.session_state:
-            st.session_state["gauge"] = 0
-
         st.title("🍜 식당에 오신 걸 환영합니다!")
         st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
         
@@ -105,15 +102,16 @@ if "player" in st.session_state:
                 """,
                 unsafe_allow_html=True
             )
+            
         col_food1, col_food2, col_food3 = st.columns(3)
         with col_food1:
-            if st.button("🍙 삼각김밥"):
+            if st.button("🍙진호네 삼각김밥"):
                 st.session_state["gauge"] += 1
         with col_food2:
-            if st.button("🍜 라면"):
+            if st.button("🍜원준이네 라면"):
                 st.session_state["gauge"] += 1
         with col_food3:
-            if st.button("🥟 만두"):
+            if st.button("🥟희준이네 만두"):
                 st.session_state["gauge"] += 1
 
         st.progress(st.session_state["gauge"] / 5)
@@ -121,6 +119,13 @@ if "player" in st.session_state:
         if st.session_state["gauge"] >= 5:
             boost = random.randint(1, 50)
             st.session_state["player"]["hp"] += boost
+
+            conn = sqlite3.connect("users.db")
+            cur = conn.cursor()
+            cur.execute("UPDATE users SET hp = ? WHERE name = ?", (st.session_state["player"]["hp"], st.session_state["player"]["name"]))
+            conn.commit()
+            conn.close()
+
             st.session_state["gauge"] = 0
 
             if boost <= 15:
