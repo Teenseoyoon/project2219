@@ -34,12 +34,10 @@ def save_player(player):
 
 # --- UI 시작 ---
 st.set_page_config(page_title="모험 게임", layout="centered")
-st.title("🎮 나만의 게임")
+st.title("🎮 SQLite 로그인 시스템")
 
 # DB 초기화
 init_db()
-
-st.title("🎮 SQLite 로그인 시스템")
 
 # 로그인/회원가입 모드 선택
 mode = st.radio("모드 선택", ["로그인", "회원가입"])
@@ -121,32 +119,6 @@ else:
                 st.rerun()
             else:
                 st.error("이름 또는 비밀번호가 틀렸습니다.")
-
-# 로그인된 사용자 정보 출력
-if "player" in st.session_state:
-    st.markdown("---")
-    p = st.session_state["player"]
-    st.markdown(
-        f"<div style='text-align:center; font-size:18px;'>"
-        f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']}"
-        f"</div>",
-        unsafe_allow_html=True
-    )
-
-# 2단계: 게임 화면
-else:
-    player = st.session_state.player
-    st.subheader("🗺️ 맵 선택")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("🍜 식당"):
-            st.success("식당으로 이동 중... (기능 예정)")
-    with col2:
-        if st.button("🏫 학교"):
-            st.success("학교로 이동 중... (기능 예정)")
-    with col3:
-        if st.button("🗡️ 던전"):
-            st.success("던전으로 이동 중... (기능 예정)")
 
     # 플레이어 정보 하단 표시
     st.markdown("---")
