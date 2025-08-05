@@ -4,7 +4,12 @@ import json
 import sqlite3
 import pandas as pd
 from db import init_db, get_user, add_user
-
+import random
+import time
+# ✅ 페이지 상태 초기화
+if "page" not in st.session_state:
+    st.session_state["page"] = "홈"
+    
 # -------------------------------
 # Player 클래스 정의
 # -------------------------------
@@ -54,29 +59,87 @@ init_db()
 if "player" in st.session_state:
     p = st.session_state["player"]
     power = p['hp'] + p['atk']
+    if st.session_state["page"] == "홈":
+        st.markdown("---")
+        st.markdown(
+            f"<div style='text-align:center; font-size:18px;'>"
+            f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']} | 💥 전투력: {power}"
+            f"</div>",
+            unsafe_allow_html=True
+        )
+
+        st.subheader("🗺️ 맵 선택")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            if st.button("🍜 식당"):
+                st.session_state["page"] = "식당"
+                st.rerun()
+        with col2:
+            if st.button("🏫 학교"):
+                st.session_state["page"] = "식당"
+                st.rerun("학교")
+        with col3:
+            if st.button("🗡️ 던전"):
+                st.session_state["page"] = "식당"
+                st.rerun("던전")
+
+        if st.button("로그아웃"):
+            st.session_state.clear()
+            st.rerun()
+            
+elif st.session_state["page"] == "식당":
+
+    if "gauge" not in st.session_state:
+        st.session_state["gauge"] = 0
+    if "hp_boost_msg" not in st.session_state:
+        st.session_state["hp_boost_msg"] = ""
+
+    st.title("🍜 식당에 오신 걸 환영합니다!")
+    st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
+
+    col_food1, col_food2, col_food3 = st.columns(3)
+    with col_food1:
+        if st.button("🍙 삼각김밥"):
+            st.session_state["gauge"] += 1
+    with col_food2:
+        if st.button("🍜 라면"):
+            st.session_state["gauge"] += 1
+    with col_food3:
+        if st.button("🥟 만두"):
+            st.session_state["gauge"] += 1
+
+    st.progress(st.session_state["gauge"] / 5)
+
+    if st.session_state["gauge"] >= 5:
+        boost = random.randint(1, 50)
+        st.session_state["player"]["hp"] += boost
+        st.session_state["gauge"] = 0
+
+        if boost <= 15:
+            msg = "동혁이가 씻지 않은 손으로 만든 손만두"
+            color = "black"
+        elif boost <= 30:
+            msg = "서윤이가 2달간 사물함에 보관해둔 간식"
+            color = "green"
+        elif boost <= 40:
+            msg = "목욕 끝나고 먹는 요구르트"
+            color = "skyblue"
+        else:
+            msg = "영양사 선생님의 48년 전통 해장국"
+            color = "gold"
+
+        st.markdown(
+            f"<div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>{msg}</div>",
+            unsafe_allow_html=True
+        )
+        time.sleep(2)
+        st.experimental_rerun()
 
     st.markdown("---")
-    st.markdown(
-        f"<div style='text-align:center; font-size:18px;'>"
-        f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']} | 💥 전투력: {power}"
-        f"</div>",
-        unsafe_allow_html=True
-    )
+    st.markdown(f"❤️ 현재 HP: **{st.session_state['player']['hp']}**")
 
-    st.subheader("🗺️ 맵 선택")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button("🍜 식당"):
-            st.success("식당으로 이동 중... (기능 예정)")
-    with col2:
-        if st.button("🏫 학교"):
-            st.success("학교로 이동 중... (기능 예정)")
-    with col3:
-        if st.button("🗡️ 던전"):
-            st.success("던전으로 이동 중... (기능 예정)")
-
-    if st.button("로그아웃"):
-        st.session_state.clear()
+    if st.button("🔙 돌아가기"):
+        st.session_state["page"] = "홈"
         st.rerun()
 
 # -------------------------------
