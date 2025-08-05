@@ -1,11 +1,13 @@
 import streamlit as st
-import json
 import os
-import streamlit as st
+import json
+import sqlite3
+import pandas as pd
 from db import init_db, get_user, add_user
 
-
-# Player 클래스 포함
+# -------------------------------
+# Player 클래스 정의
+# -------------------------------
 class Player:
     def __init__(self, name, job):
         self.name = name
@@ -24,29 +26,31 @@ class Player:
             self.atk = 10
 
     def to_dict(self):
-        return {"name": self.name, "job": self.job, "hp": self.hp, "atk": self.atk}
+        return {
+            "name": self.name,
+            "job": self.job,
+            "hp": self.hp,
+            "atk": self.atk
+        }
 
-# 사용자 정보 저장
+# -------------------------------
+# JSON 저장용 함수
+# -------------------------------
 def save_player(player):
     os.makedirs("data", exist_ok=True)
     with open(f"data/{player.name}.json", "w", encoding="utf-8") as f:
         json.dump(player.to_dict(), f, ensure_ascii=False, indent=2)
 
-# --- UI 시작 ---
+# -------------------------------
+# 기본 설정
+# -------------------------------
 st.set_page_config(page_title="모험 게임", layout="centered")
-st.title("🎮 SQLite 로그인 시스템")
-
-# DB 초기화
+st.title("🎮 나만의 모험 게임")
 init_db()
 
-# 로그인/회원가입 모드 선택
-mode = st.radio("모드 선택", ["로그인", "회원가입"])
-
-# 입력창
-name = st.text_input("이름:")
-password = st.text_input("비밀번호:", type="password")
-
-# ✅ 플레이어가 세션에 있으면 게임 화면 보여줌
+# -------------------------------
+# 로그인 완료 상태: 게임 화면
+# -------------------------------
 if "player" in st.session_state:
     p = st.session_state["player"]
 
@@ -74,10 +78,11 @@ if "player" in st.session_state:
         st.session_state.clear()
         st.rerun()
 
-# ✅ 세션에 플레이어가 없으면 로그인/회원가입 or 직접 생성
+# -------------------------------
+# 로그인되지 않은 경우: 회원가입/로그인/직접 생성
+# -------------------------------
 else:
-    st.title("🎮 로그인 또는 새로 시작")
-
+    st.subheader("👤 로그인 / 회원가입 / 직접 캐릭터 생성")
     mode = st.radio("모드 선택", ["로그인", "회원가입", "직접 생성"])
     name = st.text_input("이름:")
     password = st.text_input("비밀번호:", type="password")
@@ -120,18 +125,9 @@ else:
             else:
                 st.error("이름 또는 비밀번호가 틀렸습니다.")
 
-    # 플레이어 정보 하단 표시
-    st.markdown("---")
-    st.markdown(
-        f"<div style='text-align: center; font-size: 18px;'>"
-        f"🧍‍♂️ {player['name']} | 🪪 {player['job']} | ❤️ HP: {player['hp']} | ⚔️ ATK: {player['atk']}"
-        f"</div>",
-        unsafe_allow_html=True
-    )
-
-import sqlite3
-import pandas as pd
-
+# -------------------------------
+# 디버깅/관리용: DB 존재 여부 + 내용 보기
+# -------------------------------
 st.markdown("---")
 st.write("📁 현재 디렉토리:", os.getcwd())
 st.write("📦 users.db 파일 있음?", os.path.exists("users.db"))
