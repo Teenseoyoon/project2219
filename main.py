@@ -57,7 +57,7 @@ if "player" in st.session_state:
     st.markdown("---")
     st.markdown(
         f"<div style='text-align:center; font-size:18px;'>"
-        f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']} | 💥 전투력: {p['hp'] + p['atk']"
+        f"🧍‍♂️ {p['name']} | 🪪 {p['job']} | ❤️ HP: {p['hp']} | ⚔️ ATK: {p['atk']} | 💥 전투력: {p['hp'] + p['atk']}"
         f"</div>",
         unsafe_allow_html=True
     )
