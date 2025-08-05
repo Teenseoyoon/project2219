@@ -49,7 +49,7 @@ if st.session_state.player is None:
             player = Player(name, job)
             st.session_state.player = player.to_dict()
             save_player(player)
-            st.experimental_rerun()
+            st.rerun()
 
 # 2단계: 게임 화면
 else:
