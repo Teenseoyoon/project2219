@@ -87,60 +87,60 @@ if "player" in st.session_state:
             st.session_state.clear()
             st.rerun()
             
-elif st.session_state["page"] == "식당":
+    elif st.session_state["page"] == "식당":
 
-    if "gauge" not in st.session_state:
-        st.session_state["gauge"] = 0
-    if "hp_boost_msg" not in st.session_state:
-        st.session_state["hp_boost_msg"] = ""
+        if "gauge" not in st.session_state:
+            st.session_state["gauge"] = 0
+        if "hp_boost_msg" not in st.session_state:
+            st.session_state["hp_boost_msg"] = ""
 
-    st.title("🍜 식당에 오신 걸 환영합니다!")
-    st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
+        st.title("🍜 식당에 오신 걸 환영합니다!")
+        st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
 
-    col_food1, col_food2, col_food3 = st.columns(3)
-    with col_food1:
-        if st.button("🍙 삼각김밥"):
-            st.session_state["gauge"] += 1
-    with col_food2:
-        if st.button("🍜 라면"):
-            st.session_state["gauge"] += 1
-    with col_food3:
-        if st.button("🥟 만두"):
-            st.session_state["gauge"] += 1
+        col_food1, col_food2, col_food3 = st.columns(3)
+        with col_food1:
+            if st.button("🍙 삼각김밥"):
+                st.session_state["gauge"] += 1
+        with col_food2:
+            if st.button("🍜 라면"):
+                st.session_state["gauge"] += 1
+        with col_food3:
+            if st.button("🥟 만두"):
+                st.session_state["gauge"] += 1
 
-    st.progress(st.session_state["gauge"] / 5)
+        st.progress(st.session_state["gauge"] / 5)
 
-    if st.session_state["gauge"] >= 5:
-        boost = random.randint(1, 50)
-        st.session_state["player"]["hp"] += boost
-        st.session_state["gauge"] = 0
+        if st.session_state["gauge"] >= 5:
+            boost = random.randint(1, 50)
+            st.session_state["player"]["hp"] += boost
+            st.session_state["gauge"] = 0
 
-        if boost <= 15:
-            msg = "동혁이가 씻지 않은 손으로 만든 손만두"
-            color = "black"
-        elif boost <= 30:
-            msg = "서윤이가 2달간 사물함에 보관해둔 간식"
-            color = "green"
-        elif boost <= 40:
-            msg = "목욕 끝나고 먹는 요구르트"
-            color = "skyblue"
-        else:
-            msg = "영양사 선생님의 48년 전통 해장국"
-            color = "gold"
+            if boost <= 15:
+                msg = "동혁이가 씻지 않은 손으로 만든 손만두"
+                color = "black"
+            elif boost <= 30:
+                msg = "서윤이가 2달간 사물함에 보관해둔 간식"
+                color = "green"
+            elif boost <= 40:
+                msg = "목욕 끝나고 먹는 요구르트"
+                color = "skyblue"
+            else:
+                msg = "영양사 선생님의 48년 전통 해장국"
+                color = "gold"
 
-        st.markdown(
-            f"<div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>{msg}</div>",
-            unsafe_allow_html=True
-        )
-        time.sleep(2)
-        st.experimental_rerun()
+            st.markdown(
+                f"<div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>{msg}</div>",
+                unsafe_allow_html=True
+            )
+            time.sleep(2)
+            st.experimental_rerun()
 
-    st.markdown("---")
-    st.markdown(f"❤️ 현재 HP: **{st.session_state['player']['hp']}**")
+        st.markdown("---")
+        st.markdown(f"❤️ 현재 HP: **{st.session_state['player']['hp']}**")
 
-    if st.button("🔙 돌아가기"):
-        st.session_state["page"] = "홈"
-        st.rerun()
+        if st.button("🔙 돌아가기"):
+            st.session_state["page"] = "홈"
+            st.rerun()
 
 # -------------------------------
 # 로그인되지 않은 경우: 회원가입/로그인/직접 생성
