@@ -108,7 +108,7 @@ if "player" in st.session_state:
             if st.button("🍙진호네 삼각김밥"):
                 st.session_state["gauge"] += 1
         with col_food2:
-            if st.button("🍜원준이네 라면"):
+            if st.button("🍜우석석이네 라면"):
                 st.session_state["gauge"] += 1
         with col_food3:
             if st.button("🥟희준이네 만두"):
@@ -155,7 +155,73 @@ if "player" in st.session_state:
         if st.button("🔙 돌아가기"):
             st.session_state["page"] = "홈"
             st.rerun()
+        
+    elif st.session_state["page"] == "학교":
 
+        st.title("🏫 학교에 오신 걸 환영합니다!")
+        st.markdown("훈련을 통해 공격력을 강화하세요! (게이지가 3이 되면 ATK 증가 효과 발생)")
+
+        if "train_result" in st.session_state:
+            result = st.session_state["train_result"]
+            st.markdown(
+                f"""
+                <div style='text-align:center; font-size:32px; color:{result['color']}; font-weight:bold;'>
+                {result['msg']}<br>⚔️ ATK +{result['amount']}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        col1, col2, col3 = st.columns(3)
+        with col_train1:
+            if st.button("📚원준이의 수학 과외"):
+                st.session_state["school_gauge"] += 1
+        with col_train2:
+            if st.button("💻진호의 국어 과외"):
+                st.session_state["school_gauge"] += 0
+        with col_train3:
+            if st.button("💪민욱쌤의 영어 과외"):
+                st.session_state["school_gauge"] += 1.25
+
+        st.progress(st.session_state["school_gauge"] / 3)
+
+        if st.session_state["school_gauge"] >= 3:
+            boost = random.randint(1, 30)
+            st.session_state["player"]["atk"] += boost
+
+            conn = sqlite3.connect("users.db")
+            cur = conn.cursor()
+            cur.execute("UPDATE users SET atk = ? WHERE name = ?", (st.session_state["player"]["atk"], st.session_state["player"]["name"]))
+            conn.commit()
+            conn.close()
+
+            st.session_state["school_gauge"] = 0
+
+            if boost <= 10:
+                msg = "Zzz... 자버렸다!"
+                color = "gray"
+            elif boost <= 20:
+                msg = "오늘은 피타고라스 정리를 배웠다! a = b + c"
+                color = "lightgreen"
+            else:
+                msg = "..이루 말할 수 없는 풀이를 여백이 부족하여..."
+                color = "orange"
+
+            st.session_state["train_result"] = {
+                "msg": msg,
+                "color": color,
+                "amount": boost
+            }
+
+            st.rerun()
+
+        # 현재 ATK 표시
+        st.markdown("---")
+        st.markdown(f"⚔️ 현재 ATK: **{st.session_state['player']['atk']}**")
+
+        if st.button("🔙 돌아가기"):
+            st.session_state["page"] = "홈"
+            st.rerun()
 # -------------------------------
 # 로그인되지 않은 경우: 회원가입/로그인/직접 생성
 # -------------------------------
