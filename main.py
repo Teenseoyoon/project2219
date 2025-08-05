@@ -138,6 +138,7 @@ if "player" in st.session_state:
                 unsafe_allow_html=True
             )
             time.sleep(2)
+            placeholder.empty()
             st.rerun()
 
         st.markdown("---")
