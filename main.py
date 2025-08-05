@@ -133,7 +133,7 @@ if "player" in st.session_state:
                 unsafe_allow_html=True
             )
             time.sleep(2)
-            st.experimental_rerun()
+            st.rerun()
 
         st.markdown("---")
         st.markdown(f"❤️ 현재 HP: **{st.session_state['player']['hp']}**")
