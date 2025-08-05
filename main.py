@@ -126,7 +126,7 @@ elif mode == "로그인":
                 "atk": user[4],
             }
             st.success(f"{user[0]}님 환영합니다!")
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("이름 또는 비밀번호가 틀렸습니다.")
 
