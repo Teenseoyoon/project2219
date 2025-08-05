@@ -160,7 +160,7 @@ if "player" in st.session_state:
 
         st.title("🏫 학교에 오신 걸 환영합니다!")
         st.markdown("훈련을 통해 공격력을 강화하세요! (게이지가 3이 되면 ATK 증가 효과 발생)")
-
+        
         if "train_result" in st.session_state:
             result = st.session_state["train_result"]
             st.markdown(
@@ -172,6 +172,8 @@ if "player" in st.session_state:
                 unsafe_allow_html=True
             )
 
+        st.session_state["school_gauge"] = 0
+        
         col_train1, col_train2, col_train3 = st.columns(3)
         with col_train1:
             if st.button("📚원준이의 수학 과외"):
