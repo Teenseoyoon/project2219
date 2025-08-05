@@ -128,8 +128,13 @@ if "player" in st.session_state:
                 msg = "영양사 선생님의 48년 전통 해장국"
                 color = "gold"
 
-            st.markdown(
-                f"<div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>{msg}</div>",
+            placeholder = st.empty()
+            placeholder.markdown(
+                f"""
+                <div style='text-align:center; font-size:32px; color:{color}; font-weight:bold;'>
+                {msg}<br>❤️ HP +{boost}
+                </div>
+                """,
                 unsafe_allow_html=True
             )
             time.sleep(2)
