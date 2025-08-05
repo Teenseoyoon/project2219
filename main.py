@@ -33,23 +33,51 @@ def save_player(player):
 st.set_page_config(page_title="모험 게임", layout="centered")
 st.title("🎮 나만의 게임")
 
-# 세션 상태 초기화
-if "player" not in st.session_state:
-    st.session_state.player = None
+import streamlit as st
+from db import init_db, get_user, add_user
 
-# 1단계: 이름 + 직업 선택
-if st.session_state.player is None:
-    name = st.text_input("플레이어 이름:")
-    job = st.selectbox("직업 선택:", ["검사", "마법사", "거지"])
+init_db()
 
-    if st.button("게임 시작"):
-        if not name:
-            st.warning("이름을 입력해주세요!")
+st.title("🎮 SQLite 로그인 시스템")
+
+mode = st.radio("모드 선택", ["로그인", "회원가입"])
+name = st.text_input("이름:")
+password = st.text_input("비밀번호:", type="password")
+
+# 로그인
+if mode == "로그인":
+    if st.button("로그인"):
+        user = get_user(name)
+        if user and user[1] == password:  # user = (name, password, job, hp, atk)
+            st.success("로그인 성공!")
+            st.session_state.player = {
+                "name": user[0],
+                "job": user[2],
+                "hp": user[3],
+                "atk": user[4]
+            }
+            st.experimental_rerun()
         else:
-            player = Player(name, job)
-            st.session_state.player = player.to_dict()
-            save_player(player)
-            st.rerun()
+            st.error("이름 또는 비밀번호가 올바르지 않습니다.")
+
+# 회원가입
+else:
+    job = st.selectbox("직업 선택:", ["검사", "마법사", "거지"])
+    if st.button("회원가입"):
+        if get_user(name):
+            st.warning("이미 존재하는 사용자입니다.")
+        else:
+            if job == "검사":
+                hp, atk = 120, 15
+            elif job == "마법사":
+                hp, atk = 90, 20
+            else:
+                hp, atk = 70, 5
+            add_user(name, password, job, hp, atk)
+            st.success("회원가입 완료! 로그인해주세요.")
+
+# 로그인된 사용자 표시
+if "player" in
 
 # 2단계: 게임 화면
 else:
