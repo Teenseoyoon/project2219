@@ -2,6 +2,9 @@
 import streamlit as st
 import sqlite3
 
+import os
+st.write("📁 현재 디렉토리:", os.getcwd())
+st.write("📄 폴더 내 파일 목록:", os.listdir())
 st.set_page_config(page_title="관리자 페이지", layout="centered")
 st.title("🛠️ 관리자 도구")
 
