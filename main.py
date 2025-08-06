@@ -9,7 +9,13 @@ import time
 # ✅ 페이지 상태 초기화
 if "page" not in st.session_state:
     st.session_state["page"] = "홈"
-    
+
+conn = sqlite3.connect("users.db")
+cur = conn.cursor()
+cur.execute("ALTER TABLE users ADD COLUMN stage INTEGER DEFAULT 1;")
+conn.commit()
+conn.close()
+
 # -------------------------------
 # Player 클래스 정의
 # -------------------------------
