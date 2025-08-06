@@ -288,6 +288,23 @@ if "player" in st.session_state:
             if player_hp > 0:
                 st.success(f"🎉 스테이지 {stage} 클리어 성공!")
                 st.session_state["stage"] += 1
+                
+                # DB에서 기존 최고 스테이지 확인
+                conn = sqlite3.connect("users.db")
+                cur = conn.cursor()
+                cur.execute("SELECT stage FROM users WHERE name = ?", (player["name"],))
+                saved_stage = cur.fetchone()[0]
+
+                if st.session_state["stage"] > saved_stage:
+                    cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
+                conn.commit()
+                conn.close()
+
+    # 최고 스테이지 갱신 필요 시 업데이트
+    if st.session_state["stage"] > saved_stage:
+        cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
+    conn.commit()
+    conn.close()
             else:
                 st.error("💀 패배! 다음에 다시 도전하세요.")
 
