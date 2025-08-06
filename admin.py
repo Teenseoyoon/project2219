@@ -2,23 +2,7 @@
 import streamlit as st
 import sqlite3
 
-st.subheader("🧪 [디버그] DB 진단")
-conn = sqlite3.connect("users.db")
-df = conn.execute("SELECT * FROM users").fetchall()
-conn.close()
 
-if df:
-    st.write("✅ 현재 DB에 유저가 있습니다:")
-    for row in df:
-        st.write(row)
-else:
-    st.write("❌ 현재 DB에는 유저가 없습니다.")
-    
-import os
-st.write("📁 현재 디렉토리:", os.getcwd())
-st.write("📄 폴더 내 파일 목록:", os.listdir())
-st.set_page_config(page_title="관리자 페이지", layout="centered")
-st.title("🛠️ 관리자 도구")
 
 # -------------------------------
 # [1] DB 테이블 생성 함수
