@@ -74,7 +74,7 @@ if admin_name.strip().lower() == "admin":
     if st.button("🔥 모든 유저 삭제 (복구 불가!)"):
         reset_users_table()
         st.success("✅ 모든 유저 데이터가 삭제되었습니다.")
-        st.experimental_rerun()
+        st.rerun()
 
     st.markdown("---")
 
