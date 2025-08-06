@@ -298,7 +298,40 @@ if "player" in st.session_state:
                 cur.execute("SELECT stage FROM users WHERE name = ?", (player["name"],))
                 saved_stage = cur.fetchone()[0]
                 # 최고 스테이지 갱신 필요 시 업데이트
-                if st.selectbox("직업선택:", ["강민구 T", "최지혜 T"])
+                if st.session_state["stage"] > saved_stage:
+                    cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
+                conn.commit()
+                conn.close()
+            else:
+                st.error("💀 패배! 다음에 다시 도전하세요.")
+
+            # HP 복원
+            player["hp"] = original_hp
+
+            if st.button("🔙 돌아가기"):
+                st.session_state["page"] = "홈"
+                st.rerun()
+
+else:
+    st.subheader("👤 로그인 / 회원가입")
+    mode = st.radio("모드 선택", ["로그인", "회원가입"])
+    name = st.text_input("이름:")
+    password = st.text_input("비밀번호:", type="password")
+
+    if mode == "회원가입":
+        job = st.selectbox("직업 선택:", ["최동혁", "강민구 T", "최지혜 T"])
+        if st.button("회원가입"):
+            if get_user(name):
+                st.warning("이미 존재하는 이름입니다.")
+            else:
+                if job == "최동혁":
+                    hp, atk = 12, 15
+                elif job == "강민구 T":
+                    hp, atk = 800, 200
+                else:
+                    hp, atk = 300, 1400
+                add_user(name, password, job, hp, atk)
+                st.success("회원가입 완료! 로그인해주세요.")
         if st.button("회원가입"):
             if get_user(name):
                 st.warning("이미 존재하는 이름입니다.")
