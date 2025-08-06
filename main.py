@@ -192,7 +192,7 @@ if "player" in st.session_state:
         st.progress(st.session_state["school_gauge"] / 3)
 
         if st.session_state["school_gauge"] >= 3:
-            boost = random.randint(1, 30)
+            boost = random.randint(1, 100)
             st.session_state["player"]["atk"] += boost
 
             conn = sqlite3.connect("users.db")
@@ -285,7 +285,7 @@ if "player" in st.session_state:
             for entry in battle_log:
                 st.markdown("---")
                 st.markdown(f"<pre>{entry}</pre>", unsafe_allow_html=True)
-                time.sleep(1.2)  # 1.2초 간격으로 천천히 보여줌
+                time.sleep(0.1)  # 0.1초 간격으로 천천히 보여줌
 
             # 승패 판정
             if player_hp > 0:
