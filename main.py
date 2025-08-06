@@ -365,7 +365,6 @@ if st.checkbox("🏆 랭킹 보기"):
   
     if st.button("🏅 순위로 보기 (Top 5 전투력 그래프)"):
         import plotly.express as px
-        pip install plotly
         top5 = df.head(5)
 
         # 순위별 색상 지정
