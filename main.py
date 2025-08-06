@@ -311,6 +311,10 @@ if "player" in st.session_state:
             if st.button("🔙 돌아가기"):
                 st.session_state["page"] = "홈"
                 st.rerun()
+                
+        if st.button("🏠 홈으로 돌아가기"):
+            st.session_state["page"] = "홈"
+            st.rerun()
 
 else:
     st.subheader("👤 로그인 / 회원가입")
