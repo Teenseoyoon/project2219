@@ -88,7 +88,10 @@ if "player" in st.session_state:
             st.rerun()
             
     elif st.session_state["page"] == "식당":
-
+        
+        if "gauge" not in st.session_state:
+            st.session_state["gauge"] = 0
+    
         st.title("🍜 식당에 오신 걸 환영합니다!")
         st.markdown("음식을 먹어 체력을 회복하세요! (게이지가 5가 되면 HP 회복 효과 발생)")
         
