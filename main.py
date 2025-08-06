@@ -330,7 +330,7 @@ else:
                     hp, atk = 800, 200
                 else:
                     hp, atk = 300, 1400
-                add_user(name, password, job, hp, atk)
+                add_user(name, password, job, hp, atk, stage)
                 st.success("회원가입 완료! 로그인해주세요.")
 
     elif mode == "로그인":
