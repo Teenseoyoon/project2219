@@ -332,18 +332,6 @@ else:
                     hp, atk = 300, 1400
                 add_user(name, password, job, hp, atk)
                 st.success("회원가입 완료! 로그인해주세요.")
-        if st.button("회원가입"):
-            if get_user(name):
-                st.warning("이미 존재하는 이름입니다.")
-            else:
-                if job == "최동혁":
-                    hp, atk = 12, 15
-                elif job == "강민구 T":
-                    hp, atk = 800, 200
-                else:
-                    hp, atk = 300, 1400
-                add_user(name, password, job, hp, atk)
-                st.success("회원가입 완료! 로그인해주세요.")
 
     elif mode == "로그인":
         if st.button("로그인"):
