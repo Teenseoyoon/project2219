@@ -359,5 +359,34 @@ if st.checkbox("🏆 랭킹 보기"):
     df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
     conn.close()
     st.dataframe(df)
+    if st.checkbox("🏆 랭킹 보기"):
+    conn = sqlite3.connect("users.db")
+    df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
+    conn.close()
 
-st.write("📁 현재 디렉토리:", os.getcwd())
+    st.subheader("📊 전체 유저 랭킹")
+    st.dataframe(df)
+
+    if st.button("🏅 순위로 보기 (Top 5 전투력 그래프)"):
+        import plotly.express as px
+        top5 = df.head(5)
+
+        # 순위별 색상
+        colors = ['red', 'silver', 'peru', 'skyblue', 'lightgreen']
+
+        # 막대그래프용 데이터프레임 구성
+        chart_data = pd.DataFrame({
+            "이름": top5["name"],
+            "전투력": top5["전투력"],
+            "색상": colors
+        })
+
+        fig = px.bar(chart_data, x="이름", y="전투력", color="이름",
+                     color_discrete_sequence=colors,
+                     title="🏆 Top 5 전투력 순위")
+
+        fig.update_layout(showlegend=False)
+        st.plotly_chart(fig, use_container_width=True)
+
+    st.write("📁 현재 디렉토리:", os.getcwd())
+    st.write("📁 현재 디렉토리:", os.getcwd())
