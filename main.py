@@ -298,7 +298,7 @@ if "player" in st.session_state:
                 cur.execute("SELECT stage FROM users WHERE name = ?", (player["name"],))
                 saved_stage = cur.fetchone()[0]
                 # 최고 스테이지 갱신 필요 시 업데이트
-                if st.(["강민구 T", "최지혜 T"])
+                if st.selectbox("직업선택:", ["강민구 T", "최지혜 T"])
         if st.button("회원가입"):
             if get_user(name):
                 st.warning("이미 존재하는 이름입니다.")
