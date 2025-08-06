@@ -23,9 +23,9 @@ def get_user(name):
     conn.close()
     return user
 
-def add_user(name, stage, job, hp, atk, password):
+def add_user(name, job, hp, atk, password, stage):
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
-    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", (name, stage, job, hp, atk, password))
+    c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", (name, job, hp, atk, password, stage))
     conn.commit()
     conn.close()
