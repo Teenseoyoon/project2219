@@ -293,8 +293,12 @@ if "player" in st.session_state:
 
             # HP 복원
             player["hp"] = original_hp
-            st.session_state["page"] = "홈"
-            st.rerun()
+            if st.button("🏠 홈으로 돌아가기"):
+                st.session_state["page"] = "홈"
+                st.session_state["battle_done"] = False
+                st.session_state["battle_log"] = []
+                st.session_state["battle_result"] = ""
+                st.rerun()
 
         if st.button("🔙 돌아가기"):
             st.session_state["page"] = "홈"
