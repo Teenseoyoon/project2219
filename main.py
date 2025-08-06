@@ -359,23 +359,10 @@ if st.checkbox("🏆 랭킹 보기"):
     df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
     conn.close()
     st.dataframe(df)
-    if st.checkbox("🏆 랭킹 보기"):
-    conn = sqlite3.connect("users.db")
-    df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
-    conn.close()
 
     st.subheader("📊 전체 유저 랭킹")
     st.dataframe(df)
-
-    if st.checkbox("🏆 랭킹 보기"):
-    conn = sqlite3.connect("users.db")
-    df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
-    conn.close()
-
-    st.subheader("📊 전체 유저 랭킹")
-    st.dataframe(df)
-
-    
+  
         if st.button("🏅 순위로 보기 (Top 5 전투력 그래프)"):
             import plotly.express as px
             top5 = df.head(5)
