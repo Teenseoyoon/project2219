@@ -20,7 +20,7 @@ class Player:
         if job == "최동혁":
             self.hp = 12
             self.atk = 15
-        elif job == "서민욱 T":
+        elif job == "강민구 T":
             self.hp = 800
             self.atk = 200
         elif job == "최지혜 T":
@@ -298,40 +298,7 @@ if "player" in st.session_state:
                 cur.execute("SELECT stage FROM users WHERE name = ?", (player["name"],))
                 saved_stage = cur.fetchone()[0]
                 # 최고 스테이지 갱신 필요 시 업데이트
-                if st.session_state["stage"] > saved_stage:
-                    cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
-                conn.commit()
-                conn.close()
-
-
-            else:
-                st.error("💀 패배! 다음에 다시 도전하세요.")
-
-            # HP 복원
-            player["hp"] = original_hp
-
-        if st.button("🔙 돌아가기"):
-            st.session_state["page"] = "홈"
-            st.rerun()
-# -------------------------------
-# 로그인되지 않은 경우: 회원가입/로그인/직접 생성
-# -------------------------------
-else:
-    st.subheader("👤 로그인 / 회원가입")
-    mode = st.radio("모드 선택", ["로그인", "회원가입"])
-    name = st.text_input("이름:")
-    password = st.text_input("비밀번호:", type="password")
-
-    if mode == "직접 생성":
-        job = st.selectbox("직업 선택:", ["검사", "마법사", "거지"])
-        if st.button("게임 시작"):
-            player = Player(name, job)
-            st.session_state["player"] = player.to_dict()
-            save_player(player)
-            st.rerun()
-
-    elif mode == "회원가입":
-        job = st.selectbox("직업 선택:", ["검사", "마법사", "거지"])
+                if st.se구 T", "최지혜 T"])
         if st.button("회원가입"):
             if get_user(name):
                 st.warning("이미 존재하는 이름입니다.")
