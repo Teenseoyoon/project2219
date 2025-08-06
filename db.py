@@ -30,3 +30,6 @@ def add_user(name, password, job, hp, atk, stage):
     c.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)", (name, password, job, hp, atk, stage))
     conn.commit()
     conn.close()
+import os
+
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "users.db")
