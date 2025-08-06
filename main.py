@@ -377,11 +377,11 @@ if st.checkbox("🏆 랭킹 보기"):
                 "색상": colors
             })
 
-            fig = px.bar(chart_data, x="이름", y="전투력", color="이름",
+        fig = px.bar(chart_data, x="이름", y="전투력", color="이름",
                          color_discrete_sequence=colors,
                          title="🏆 Top 5 전투력 순위")
 
-            fig.update_layout(showlegend=False)
-            st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(showlegend=False)
+        st.plotly_chart(fig, use_container_width=True)
     
     st.write("📁 현재 디렉토리:", os.getcwd())
