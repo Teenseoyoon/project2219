@@ -366,7 +366,7 @@ else:
 # -------------------------------
 st.markdown("---")
 
-if st.checkbox("📂 랭킹 보기"):
+if st.checkbox("🏆 랭킹 보기"):
     conn = sqlite3.connect("users.db")
     df = pd.read_sql_query("SELECT *, (hp + atk) as 전투력 FROM users ORDER BY 전투력 DESC", conn)
     conn.close()
