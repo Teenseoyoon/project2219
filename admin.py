@@ -93,3 +93,8 @@ if admin_name.strip().lower() == "admin":
         st.info("현재 등록된 유저가 없습니다.")
 else:
     st.warning("이 페이지는 관리자(admin)만 접근 가능합니다.")
+
+import os
+
+DB_PATH = os.path.join(os.path.dirname(__file__), "..", "users.db")
+
