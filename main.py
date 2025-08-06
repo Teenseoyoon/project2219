@@ -248,48 +248,57 @@ if "player" in st.session_state:
 
         if st.button("⚔️ 전투 시작"):
             player = st.session_state["player"]
-
-            # HP 원본 저장
             original_hp = player["hp"]
 
-            # 플레이어 공격 (20% 확률로 2배 데미지)
-            player_crit = random.random() < 0.2
-            player_attack = player["atk"] * (2 if player_crit else 1)
-            monster_hp_after = monster["hp"] - player_attack
+            # 전투 로그 저장용
+            battle_log = []
+            turn = 1
 
-            st.markdown("---")
-            st.markdown(f"🧍‍♂️ 플레이어 공격! {'💥크리티컬! ' if player_crit else ''}데미지: {player_attack}")
+            monster_hp = monster["hp"]
+            player_hp = player["hp"]
 
-            if monster_hp_after <= 0:
-                # 승리
-                st.success(f"🎉 {monster['name']} 처치 성공! 스테이지 {stage} 클리어!")
-                st.session_state["stage"] += 1
-                player["hp"] = original_hp  # HP 복원
-                st.session_state["page"] = "홈"
-                st.rerun()
-            else:
-                # 몬스터 반격
-                monster_crit = random.random() < 0.5
-                monster_attack = monster["atk"] * (2 if monster_crit else 1)
-                player["hp"] -= monster_attack
+            while player_hp > 0 and monster_hp > 0:
+                log = f"🎯 [턴 {turn}]"
 
-                st.markdown(f"👹 몬스터 반격! {'💥강타! ' if monster_crit else ''}플레이어 HP -{monster_attack}")
+                # 플레이어 공격
+                crit_player = random.random() < 0.2
+                damage_to_monster = player["atk"] * (2 if crit_player else 1)
+                monster_hp -= damage_to_monster
+                log += f"\n🧍‍♂️ 플레이어 공격! {'💥크리티컬! ' if crit_player else ''}-{damage_to_monster} → 몬스터 HP: {max(monster_hp, 0)}"
 
-                if player["hp"] <= 0:
-                    st.error("💀 패배했습니다! 다음에 다시 도전하세요!")
-                    player["hp"] = original_hp  # HP 복원
-                    st.session_state["page"] = "홈"
-                    st.rerun()
+                # 몬스터 생존 시 반격
+                if monster_hp > 0:
+                    crit_monster = random.random() < 0.5
+                    damage_to_player = monster["atk"] * (2 if crit_monster else 1)
+                    player_hp -= damage_to_player
+                    log += f"\n👹 몬스터 반격! {'💥강타! ' if crit_monster else ''}-{damage_to_player} → 플레이어 HP: {max(player_hp, 0)}"
                 else:
-                    st.warning("😮 아직 싸움은 끝나지 않았지만 이 전투는 종료됩니다!")
-                    player["hp"] = original_hp  # HP 복원
-                    st.session_state["page"] = "홈"
-                    st.rerun()
+                    log += "\n✅ 몬스터 쓰러짐!"
+
+                battle_log.append(log)
+                turn += 1
+
+            # 로그 출력 (한 턴씩 천천히 출력)
+            for entry in battle_log:
+                st.markdown("---")
+                st.markdown(f"<pre>{entry}</pre>", unsafe_allow_html=True)
+                time.sleep(1.2)  # 1.2초 간격으로 천천히 보여줌
+
+            # 승패 판정
+            if player_hp > 0:
+                st.success(f"🎉 스테이지 {stage} 클리어 성공!")
+                st.session_state["stage"] += 1
+            else:
+                st.error("💀 패배! 다음에 다시 도전하세요.")
+
+            # HP 복원
+            player["hp"] = original_hp
+            st.session_state["page"] = "홈"
+            st.rerun()
 
         if st.button("🔙 돌아가기"):
             st.session_state["page"] = "홈"
             st.rerun()
-
 # -------------------------------
 # 로그인되지 않은 경우: 회원가입/로그인/직접 생성
 # -------------------------------
