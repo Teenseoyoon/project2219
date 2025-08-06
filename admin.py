@@ -2,6 +2,31 @@
 import streamlit as st
 import sqlite3
 
+import streamlit as st
+import sqlite3
+
+st.set_page_config(page_title="관리자 페이지", layout="centered")
+st.title("🛠️ 관리자 도구")
+
+# DB 테이블이 없으면 생성
+def init_db():
+    conn = sqlite3.connect("users.db")
+    cur = conn.cursor()
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            name TEXT PRIMARY KEY,
+            password TEXT NOT NULL,
+            job TEXT,
+            hp INTEGER,
+            atk INTEGER,
+            stage INTEGER
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+init_db()
+
 st.set_page_config(page_title="관리자 페이지", layout="centered")
 st.title("🛠️ 관리자 도구")
 
