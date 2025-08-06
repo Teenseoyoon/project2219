@@ -8,7 +8,7 @@ import sqlite3
 # [1] DB 테이블 생성 함수
 # -------------------------------
 def init_db():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("DB_PATH")
     cur = conn.cursor()
     cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -29,7 +29,7 @@ init_db()  # 테이블 없으면 생성
 # [2] 유저 목록 불러오기
 # -------------------------------
 def get_all_users():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("DB_PATH")
     cur = conn.cursor()
     cur.execute("SELECT name FROM users")
     users = [row[0] for row in cur.fetchall()]
@@ -40,7 +40,7 @@ def get_all_users():
 # [3] 전체 삭제 함수
 # -------------------------------
 def reset_users_table():
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("DB_PATH")
     cur = conn.cursor()
     cur.execute("DELETE FROM users")
     conn.commit()
@@ -50,7 +50,7 @@ def reset_users_table():
 # [4] 특정 유저 삭제 함수
 # -------------------------------
 def delete_user_by_name(name):
-    conn = sqlite3.connect("users.db")
+    conn = sqlite3.connect("DB_PATH")
     cur = conn.cursor()
     cur.execute("DELETE FROM users WHERE name = ?", (name,))
     conn.commit()
