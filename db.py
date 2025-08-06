@@ -9,7 +9,8 @@ def init_db():
             password TEXT NOT NULL,
             job TEXT,
             hp INTEGER,
-            atk INTEGER
+            atk INTEGER,
+            stage INTEGER
         )
     """)
     conn.commit()
