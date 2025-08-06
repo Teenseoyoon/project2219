@@ -294,17 +294,13 @@ if "player" in st.session_state:
                 cur = conn.cursor()
                 cur.execute("SELECT stage FROM users WHERE name = ?", (player["name"],))
                 saved_stage = cur.fetchone()[0]
-
+                # 최고 스테이지 갱신 필요 시 업데이트
                 if st.session_state["stage"] > saved_stage:
                     cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
                 conn.commit()
                 conn.close()
 
-    # 최고 스테이지 갱신 필요 시 업데이트
-    if st.session_state["stage"] > saved_stage:
-        cur.execute("UPDATE users SET stage = ? WHERE name = ?", (st.session_state["stage"], player["name"]))
-    conn.commit()
-    conn.close()
+
             else:
                 st.error("💀 패배! 다음에 다시 도전하세요.")
 
