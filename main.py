@@ -225,6 +225,71 @@ if "player" in st.session_state:
         if st.button("🔙 돌아가기"):
             st.session_state["page"] = "홈"
             st.rerun()
+                
+    elif st.session_state["page"] == "던전":
+        st.title("🗡️ 던전에 도전합니다!")
+
+        # 스테이지 저장
+        if "stage" not in st.session_state:
+            st.session_state["stage"] = 1
+        stage = st.session_state["stage"]
+
+        # 몬스터 능력 설정
+        base_monster_hp = 100
+        base_monster_atk = 10
+        monster = {
+            "name": random.choice(["고블린", "슬라임", "늑대", "마왕의 그림자"]),
+            "hp": base_monster_hp + (stage - 1) * 200,
+            "atk": base_monster_atk + (stage - 1) * 50
+        }
+
+        st.markdown(f"👹 스테이지 {stage} 몬스터: **{monster['name']}**")
+        st.markdown(f"❤️ HP: {monster['hp']} | ⚔️ ATK: {monster['atk']}")
+
+        if st.button("⚔️ 전투 시작"):
+            player = st.session_state["player"]
+
+            # HP 원본 저장
+            original_hp = player["hp"]
+
+            # 플레이어 공격 (20% 확률로 2배 데미지)
+            player_crit = random.random() < 0.2
+            player_attack = player["atk"] * (2 if player_crit else 1)
+            monster_hp_after = monster["hp"] - player_attack
+
+            st.markdown("---")
+            st.markdown(f"🧍‍♂️ 플레이어 공격! {'💥크리티컬! ' if player_crit else ''}데미지: {player_attack}")
+
+            if monster_hp_after <= 0:
+                # 승리
+                st.success(f"🎉 {monster['name']} 처치 성공! 스테이지 {stage} 클리어!")
+                st.session_state["stage"] += 1
+                player["hp"] = original_hp  # HP 복원
+                st.session_state["page"] = "홈"
+                st.rerun()
+            else:
+                # 몬스터 반격
+                monster_crit = random.random() < 0.5
+                monster_attack = monster["atk"] * (2 if monster_crit else 1)
+                player["hp"] -= monster_attack
+
+                st.markdown(f"👹 몬스터 반격! {'💥강타! ' if monster_crit else ''}플레이어 HP -{monster_attack}")
+
+                if player["hp"] <= 0:
+                    st.error("💀 패배했습니다! 다음에 다시 도전하세요!")
+                    player["hp"] = original_hp  # HP 복원
+                    st.session_state["page"] = "홈"
+                    st.rerun()
+                else:
+                    st.warning("😮 아직 싸움은 끝나지 않았지만 이 전투는 종료됩니다!")
+                    player["hp"] = original_hp  # HP 복원
+                    st.session_state["page"] = "홈"
+                    st.rerun()
+
+        if st.button("🔙 돌아가기"):
+            st.session_state["page"] = "홈"
+            st.rerun()
+
 # -------------------------------
 # 로그인되지 않은 경우: 회원가입/로그인/직접 생성
 # -------------------------------
