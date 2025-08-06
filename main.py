@@ -17,15 +17,15 @@ class Player:
     def __init__(self, name, job):
         self.name = name
         self.job = job
-        if job == "검사":
-            self.hp = 120
+        if job == "최동혁":
+            self.hp = 12
             self.atk = 15
-        elif job == "마법사":
-            self.hp = 90
-            self.atk = 20
-        elif job == "거지":
-            self.hp = 70
-            self.atk = 5
+        elif job == "서민욱 T":
+            self.hp = 800
+            self.atk = 200
+        elif job == "최지혜 T":
+            self.hp = 300
+            self.atk = 1400
         else:
             self.hp = 100
             self.atk = 10
