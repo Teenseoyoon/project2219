@@ -338,6 +338,7 @@ else:
                     "job": user[2],
                     "hp": user[3],
                     "atk": user[4],
+                    "stage": user[5]
                 }
                 st.success(f"{user[0]}님 환영합니다!")
                 st.rerun()
