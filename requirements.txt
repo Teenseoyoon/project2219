@@ -1,4 +1,4 @@
 streamlit
 pandas
 plotly
-pip install fasttext-wheel
+fasttext-wheel
