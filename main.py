@@ -6,7 +6,7 @@ import pandas as pd
 from db import init_db, get_user, add_user
 import random
 import time
-import fasttext-wheel
+import fasttext
 
 nickname_model = fasttext.load_model("nickname_filter.bin")
 
