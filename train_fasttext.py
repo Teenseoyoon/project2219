@@ -1,4 +1,4 @@
-import fasttext-wheel
+import fasttext
 
 
 model = fasttext.train_supervised(
