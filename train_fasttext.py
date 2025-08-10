@@ -1,4 +1,5 @@
-import fasttext
+import fasttext-wheel
+
 
 model = fasttext.train_supervised(
     input="nickname_data.txt",
