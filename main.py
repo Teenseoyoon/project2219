@@ -6,6 +6,10 @@ import pandas as pd
 from db import init_db, get_user, add_user
 import random
 import time
+import fasttext
+
+nickname_model = fasttext.load_model("nickname_filter.bin")
+
 # ✅ 페이지 상태 초기화
 if "page" not in st.session_state:
     st.session_state["page"] = "홈"
@@ -323,11 +327,17 @@ else:
     name = st.text_input("이름:")
     password = st.text_input("비밀번호:", type="password")
 
+    def is_offensive_name(name: str) -> bool:
+        label, prob = nickname_model.predict(name)
+        return label[0] == "__label__offensive" and prob[0] > 0.8
+    
     if mode == "회원가입":
         job = st.selectbox("직업 선택:", ["최동혁", "강민구 T", "최지혜 T"])
         if st.button("회원가입"):
             if get_user(name):
                 st.warning("이미 존재하는 이름입니다.")
+            elif is_offensive_name(name):
+                st.error("닉네임에 부적절한 표현이 포함되어 가입이 제한됩니다.")
             else:
                 if job == "최동혁":
                     hp, atk = 12, 15
